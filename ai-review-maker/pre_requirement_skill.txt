@@ -1,0 +1,102 @@
+=====================================================================
+pre_requirement_skill.txt — ai-review-maker
+Mục đích: lưu các yêu cầu/thông tin CHƯA ĐƯỢC CUNG CẤP trong bối cảnh ban đầu.
+Cập nhật file này khi có thông tin; đổi [MISSING] -> [OK] kèm giá trị.
+Trạng thái: [MISSING] chưa có | [OK] đã có | [CONFIRM] đề xuất, cần xác nhận
+=====================================================================
+
+---------------------------------------------------------------------
+1. NƠI CHỨA INSTRUCTION CỦA DỰ ÁN (câu hỏi "<?>" trong bối cảnh gốc)
+---------------------------------------------------------------------
+Mục tiêu: để Copilot tự nạp overview/folder structure của dự án.
+
+[MISSING] File instruction toàn repo
+          Đề xuất: .github/copilot-instructions.md
+          Nội dung: overview dự án, vai trò, coding standard, quy ước output.
+[MISSING] Instruction theo phạm vi folder (tùy chọn)
+          Đề xuất: .github/instructions/*.instructions.md (dùng applyTo, ví dụ **/Core/**, **/Port/**)
+[MISSING] AGENTS.md ở gốc repo (tùy chọn, nếu team muốn dùng chung giữa các công cụ AI)
+[MISSING] Vị trí đặt skill: .github/skills/ai-review-maker/ (đề xuất; hoặc ~/.copilot/skills/ nếu dùng cá nhân)
+[CONFIRM] Overview dự án nằm ở file nào? (README, docs/, wiki nội bộ?) -> ghi đường dẫn: ______
+[CONFIRM] Cây thư mục API/Core/Port: lấy từ đâu? (tree -L 3 / script check_folder_structure.py) -> ______
+[CONFIRM] Phiên bản VS Code và Copilot đã bật tính năng Agent Skills chưa? (cần kiểm tra theo tài liệu
+          VS Code hiện hành; tên cài đặt và đường dẫn thư mục skill có thể thay đổi theo phiên bản)
+
+---------------------------------------------------------------------
+2. THÔNG TIN DỰ ÁN / KỸ THUẬT (input của Workflow 1)
+---------------------------------------------------------------------
+[MISSING] Cây thư mục thực tế API/ Core/ Port/ (và folder con)
+[MISSING] Tên thật của các folder (có đúng "API", "Core", "Port"?)
+[MISSING] Luồng A: tên luồng, hàm điểm vào, file liên quan
+[MISSING] Use case DLMS (COSEM object, association, security suite, HDLC/Wrapper, kênh vật lý: optical/RS485/...)
+[MISSING] Dòng MCU STM32 cụ thể (ví dụ F4/L4/G0...) và danh sách MCU/SoC mà common module cần hỗ trợ
+[MISSING] Phiên bản FreeRTOS
+[MISSING] Phiên bản Keil MDK và ARM Compiler (5/armcc hay 6/armclang)
+[MISSING] Ràng buộc RAM/Flash (tổng, phần dành cho module DLMS, mức dự phòng)
+[MISSING] Ràng buộc tương thích: các sản phẩm/nhánh đang dùng API hiện tại, chính sách deprecate
+[MISSING] Cấu hình FreeRTOS: configMAX_SYSCALL_INTERRUPT_PRIORITY, tick, heap scheme, stack mặc định
+[MISSING] Cơ chế OTA/bootloader hiện có (layout Flash, rollback) — ảnh hưởng đến đánh giá
+[MISSING] Yêu cầu bảo mật DLMS (key management, lưu key ở đâu)
+
+---------------------------------------------------------------------
+3. CODING STANDARD
+---------------------------------------------------------------------
+[MISSING] Tài liệu Barr C bản chính thức của team (để trích dẫn số hiệu quy tắc, tránh bịa)
+[MISSING] Danh sách quy tắc Barr C mà team đã chọn/bỏ qua (nếu có ngoại lệ)
+[MISSING] Có tuân thêm chuẩn nào khác (MISRA C, CERT C) không?
+[CONFIRM] Định nghĩa 3 mức critical/major/minor trong references/07_output_format.md
+
+---------------------------------------------------------------------
+4. TOOL
+---------------------------------------------------------------------
+[MISSING] Hệ điều hành và shell (Windows + Git Bash? PowerShell?)
+[MISSING] Đã cài: tree, rg (ripgrep), ctags, cflow? (cflow ít phổ biến trên Windows) -> phương án thay thế
+[MISSING] clangd: phiên bản; extension VS Code; đường dẫn compile_commands.json
+[MISSING] Cách sinh compile_commands.json từ .uvprojx (script uvprojx_to_compile_commands.py chưa có code)
+[MISSING] clang-tidy và cppcheck: phiên bản, file cấu hình (.clang-tidy, cppcheck suppressions)
+[MISSING] Danh sách check clang-tidy/cppcheck map với quy tắc Barr C
+[MISSING] Python: phiên bản; thư viện được phép dùng (chỉ stdlib hay có thể pip install?)
+[MISSING] Đường dẫn UV4.exe; tên project .uvprojx; tên target dùng để build
+[CONFIRM] ARM Compiler license cho build CLI trên máy dùng để review
+[CONFIRM] Thư mục output của build (Objects/Listings) có làm bẩn working tree không? Có trong .gitignore không?
+
+---------------------------------------------------------------------
+5. GIT
+---------------------------------------------------------------------
+[MISSING] Nhánh base để tính merge-base (main? master? develop? release/*?)
+[MISSING] Remote và quy ước đặt tên nhánh
+[MISSING] Repo có submodule không? (ảnh hưởng git diff)
+[MISSING] Ngưỡng nhận diện rename (-M), mặc định 50%
+[MISSING] Có dùng squash/rebase thường xuyên không (ảnh hưởng đọc "theo từng commit")?
+[CONFIRM] Danh sách lệnh git chỉ đọc được phép (xem references/09_git_policy.md)
+[CONFIRM] Quy trình xin chấp thuận khi cần commit/push/reset
+
+---------------------------------------------------------------------
+6. PYTHON SCRIPT (hiện chỉ có mô tả, chưa có code)
+---------------------------------------------------------------------
+[MISSING] Implement scripts/uvprojx_to_compile_commands.py
+[MISSING] Implement scripts/check_folder_structure.py
+[MISSING] Implement scripts/callgraph_isr_task.py
+[MISSING] Implement scripts/check_core_port_boundary.py
+[MISSING] Implement scripts/classify_changes.py
+[MISSING] Implement scripts/diff_headers_api.py
+[MISSING] Implement scripts/build_check_keil.py
+[CONFIRM] Cách tự động hóa "tự cập nhật compile_commands.json": hook, task VS Code, hay chạy tay?
+[CONFIRM] Định dạng output của script (text, JSON, Markdown)
+
+---------------------------------------------------------------------
+7. OUTPUT VÀ VẬN HÀNH
+---------------------------------------------------------------------
+[CONFIRM] Thư mục lưu báo cáo cục bộ (đề xuất: .ai-review/reports/, thêm vào .gitignore)
+[CONFIRM] Ngôn ngữ báo cáo (tiếng Việt, giữ thuật ngữ kỹ thuật tiếng Anh?)
+[CONFIRM] Cam kết cục bộ: model Copilot gửi code lên dịch vụ của GitHub/Microsoft khi dùng chat.
+          Ràng buộc "không gửi source ra dịch vụ bên ngoài" có xung đột với việc dùng Copilot không?
+          -> Cần xác nhận với team/chính sách bảo mật: dùng Copilot Business/Enterprise (không dùng dữ liệu để
+             huấn luyện), hay model chạy local? Đây là điểm cần quyết định TRƯỚC khi đưa source vào.
+
+---------------------------------------------------------------------
+8. GHI CHÚ TỪ BỐI CẢNH GỐC
+---------------------------------------------------------------------
+- Câu "Tôi cần bạn sửa dụng những kinh nghiệp đã có..." có vẻ gõ nhầm (sử dụng / kinh nghiệm). Giữ ý: dùng kinh nghiệm
+  embedded/firmware sẵn có để giải bài toán; đã phản ánh trong references/01_role_and_context.md.
+- Nếu cấu trúc folder thay đổi -> phải yêu cầu cập nhật bối cảnh (references/03 + file này).
